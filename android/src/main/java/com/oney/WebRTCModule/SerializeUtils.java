@@ -28,20 +28,19 @@ public class SerializeUtils {
         return params;
     }
 
-    public static ReadableMap serializeStream(int id, String streamReactTag, MediaStream stream) {
+    public static ReadableMap serializeStream(int pcId, String streamReactTag, MediaStream stream) {
 
         WritableMap params = Arguments.createMap();
-        params.putInt("id", id);
         params.putString("streamId", stream.getId());
         params.putString("streamReactTag", streamReactTag);
 
         WritableArray tracks = Arguments.createArray();
 
         for (VideoTrack track: stream.videoTracks) {
-            tracks.pushMap(SerializeUtils.serializeTrack(id, track));
+            tracks.pushMap(SerializeUtils.serializeTrack(pcId, track));
         }
         for (AudioTrack track: stream.audioTracks) {
-            tracks.pushMap(SerializeUtils.serializeTrack(id, track));
+            tracks.pushMap(SerializeUtils.serializeTrack(pcId, track));
         }
 
         params.putArray("tracks", tracks);
@@ -64,10 +63,10 @@ public class SerializeUtils {
         }
     }
 
-    public static ReadableMap serializeTrack(int id, MediaStreamTrack track) {
+    public static ReadableMap serializeTrack(int pcId, MediaStreamTrack track) {
         WritableMap trackInfo = Arguments.createMap();
         trackInfo.putString("id", track.id());
-        trackInfo.putInt("peerConnectionId", id);
+        trackInfo.putInt("peerConnectionId", pcId);
         trackInfo.putString("kind", track.kind());
         trackInfo.putBoolean("enabled", track.enabled());
         trackInfo.putString("readyState", track.state().toString().toLowerCase());
