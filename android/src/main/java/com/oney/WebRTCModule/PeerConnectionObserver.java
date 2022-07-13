@@ -441,6 +441,11 @@ class PeerConnectionObserver implements PeerConnection.Observer {
             params.putInt("transceiverOrder", getNextTransceiverId());
             params.putInt("id", this.id);
 
+            // NB: this is a hack. In order to create the proper JS state we need both the onTrack
+            // and onAddTrack native events, which are called one after the other, BUT only the
+            // latter provides access to the streams, so we'll dispatch the JS event then.
+            params.putBoolean("skipEvent", true);
+
             webRTCModule.sendEvent("peerConnectionOnTrack", params);
         });
     }
