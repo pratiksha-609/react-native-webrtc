@@ -352,9 +352,9 @@ export default class RTCPeerConnection extends defineCustomEventTarget(...PEER_C
                 const receiver = new RTCRtpReceiver({ ...ev.receiver, track });
                 // Make sure transceivers are stored in timestamp order. Also, we have to make
                 // sure we do not add a transceiver if it exists. 
-                let [{ order, transceiver }] = this._transceivers.filter(({ order, transceiver }) => {
+                let [{ transceiver } = { transceiver: null }] = this._transceivers.filter(({ transceiver }) => {
                     return transceiver.id === ev.transceiver.id;
-                })
+                });
                 if (!transceiver) {
                     // Creating objects out of the event data
                     const newTransceiver = new RTCRtpTransceiver({ ...ev.transceiver, receiver: receiver });
