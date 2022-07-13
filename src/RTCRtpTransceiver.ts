@@ -61,7 +61,7 @@ export default class RTCRtpTransceiver extends defineCustomEventTarget(...TRANSC
     }
 
     set direction(val) {
-        if (!['sendonly', 'recvonly', 'sendrecv'].includes(val)) {
+        if (!['sendonly', 'recvonly', 'sendrecv', 'inactive'].includes(val)) {
             throw new TypeError('Invalid direction provided');
         }
 
@@ -73,7 +73,7 @@ export default class RTCRtpTransceiver extends defineCustomEventTarget(...TRANSC
             return;
         }
 
-        WebRTCModule.peerConnectionTransceiverSetDirection(this._peerConnectionId, this.id, val)
+        WebRTCModule.transceiverSetDirection(this._peerConnectionId, this.id, val)
         this._direction = val;
     }
 
